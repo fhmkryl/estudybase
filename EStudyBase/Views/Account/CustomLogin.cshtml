@@ -1,0 +1,61 @@
+﻿@model EStudyBase.Models.LoginModel
+
+
+@using (Html.BeginForm("CustomLogin", "Account"))
+{
+    @Html.AntiForgeryToken()
+                
+    if (ViewBag.Result != null)
+    {
+        if (!ViewBag.Result)
+        {
+            if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+            {
+    <div class="alert alert-error">@ViewBag.ResultMessage</div>
+            }
+        }
+        else
+        {
+            if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+            {
+    <div class="alert alert-success">@ViewBag.ResultMessage</div>
+            }
+        }
+    }
+
+
+    <div class="control-group">
+        @Html.LabelFor(model => model.UserName, new { @class = "control-label" })
+        <div class="controls">
+            @Html.EditorFor(model => model.UserName)
+        </div>
+        @Html.ValidationMessageFor(model => model.UserName)
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(model => model.Password, new { @class = "control-label" })
+        <div class="controls">
+            @Html.EditorFor(model => model.Password)
+        </div>
+        @Html.ValidationMessageFor(model => model.Password)
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            @Html.CheckBoxFor(m => m.RememberMe)
+            @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <input type="submit" value="Login" class="btn btn-primary" />
+        </div>
+    </div>
+}
+<section>
+    <div>
+        @Html.ActionLink("Forgot Password","ForgotPassword","Account")
+    </div>
+</section>
+<section class="social" id="socialLoginForm">
+    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
+</section>
+

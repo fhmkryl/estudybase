@@ -1,0 +1,29 @@
+﻿<RecentFiles>
+  <RecentFiles>
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Keyword/f:_KeywordTagList.cshtml" caret="93" fromTop="3" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Controllers/f:KeywordController.cs" caret="9237" fromTop="1" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Keyword/f:_ContentList.cshtml" caret="2187" fromTop="18" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Controllers/f:ContentController.cs" caret="2749" fromTop="7" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Keyword/f:Search.cshtml" caret="2882" fromTop="25" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Controllers/f:AccountController.cs" caret="17759" fromTop="20" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Shared/f:_FrontEndLayout.cshtml" caret="7381" fromTop="17" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:App_Start/f:BundleConfig.cs" caret="1306" fromTop="17" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Scripts/d:Custom/f:init.jplayer.js" caret="1809" fromTop="34" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Account/f:ExternalLoginConfirmation.cshtml" caret="1048" fromTop="8" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Account/f:_ExternalLoginsListPartial.cshtml" caret="487" fromTop="12" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:App_Start/f:AuthConfig.cs" caret="719" fromTop="17" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/f:Web.config" caret="2386" fromTop="18" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Account/f:Login.cshtml" caret="2796" fromTop="9" />
+  </RecentFiles>
+  <RecentEdits>
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Controllers/f:ContentController.cs" caret="3088" fromTop="14" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Keyword/f:_KeywordTagList.cshtml" caret="93" fromTop="3" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Keyword/f:Search.cshtml" caret="889" fromTop="15" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Keyword/f:_ContentList.cshtml" caret="9113" fromTop="26" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Account/f:_ExternalLoginsListPartial.cshtml" caret="517" fromTop="13" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Account/f:ExternalLoginConfirmation.cshtml" caret="1068" fromTop="10" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/f:Web.config" caret="6844" fromTop="25" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:App_Start/f:AuthConfig.cs" caret="719" fromTop="17" />
+    <File id="FF9EC18E-40CC-4501-B8D6-B708B138856F/d:Views/d:Account/f:Login.cshtml" caret="2753" fromTop="7" />
+  </RecentEdits>
+</RecentFiles>

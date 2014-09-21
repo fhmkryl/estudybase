@@ -1,0 +1,121 @@
+﻿@model IEnumerable<EStudyBase.ViewModels.EmailBoxViewModel>
+
+@if (Model.Any())
+{
+    <table class="table table-striped table-bordered jquery-data-table">
+        <thead>
+            <tr>
+                <th colspan="6">
+                    <div class="alert alert-info">@ViewBag.ListHeader <span class="badge">@ViewBag.ListCount</span></div>
+                </th>
+            </tr>
+            <tr role="row">
+                <th>Gönderen</th>
+                <th>Gönderilen</th>
+                <th>Başlık</th>
+                <th>Tarih</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var email in Model)
+            {
+                <tr>
+                    <td>
+                        @if (email.FromUserId == null)
+                        {
+                            <div>Sistem</div>
+                        }
+                        else
+                        {
+                            if (email.FromUserId != WebSecurity.CurrentUserId)
+                            {
+                                <div>
+                                    @Ajax.ActionLink(email.FromUserName, "EmailToUser", "Email", new {userId = email.FromUserId},
+                                                     new AjaxOptions
+                                                         {
+                                                             UpdateTargetId = "divEmailOperations",
+                                                             InsertionMode = InsertionMode.Replace,
+                                                             OnComplete = "RestoreEmailContent"
+                                                         })
+                                </div>
+                            }
+                            else
+                            {
+                                <div>@email.FromUserName</div>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @if (email.ToUserId != WebSecurity.CurrentUserId)
+                        {
+                            <div>
+                                @Ajax.ActionLink(email.ToUserName, "EmailToUser", "Email", new { userId = email.ToUserId },
+                                                 new AjaxOptions
+                                                     {
+                                                         UpdateTargetId = "divEmailOperations",
+                                                         InsertionMode = InsertionMode.Replace,
+                                                         OnComplete = "RestoreEmailContent"
+                                                     })
+                            </div>
+                        }
+                        else
+                        {
+                            <div>@email.ToUserName</div>
+                        }
+                    </td>
+                    <td>
+                        @Ajax.ActionLink(email.Header, "GetEmailContent", "Email", new { emailId = email.EmailId }, new AjaxOptions
+                   {
+                       UpdateTargetId = "divEmailOperations",
+                       InsertionMode = InsertionMode.Replace,
+                       OnComplete = "RestoreEmailContent"
+                   })
+                    </td>
+
+                    <td>
+                        @email.CreateDate
+                    </td>
+                    <td>
+                        @Ajax.ActionLink(" ", "DeleteEmail", "Email", new { emailId = email.EmailId }, new AjaxOptions(), new { @class = "icon-remove-sign" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+
+    <div class="pagination" style="margin: 0;position: absolute;z-index: 2;top: auto;right: 0;">
+        <ul>
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <li class="prev">
+                    @Ajax.ActionLink("<< Önceki", "GetEmailBox", "Email", new { operationType = ViewBag.OperationType, currentPage = ViewBag.CurrentPage, pageDirection = "Previous" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "divEmailList", InsertionMode = InsertionMode.Replace })
+                </li>
+            }
+            @if (Model.Count() == 10)
+            {
+                <li class="next">
+                    @Ajax.ActionLink("Sonraki >>", "GetEmailBox", "Email", new { operationType = ViewBag.OperationType, currentPage = ViewBag.CurrentPage, pageDirection = "Next" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "divEmailList", InsertionMode = InsertionMode.Replace })
+                </li>
+            }
+        </ul>
+    </div>
+    
+}
+else
+{
+    <table class="table table-striped table-bordered jquery-data-table">
+        <tr>
+            <td>
+                <div class="alert alert-error">Mesaj bulunamadı!</div>
+            </td>
+        </tr>
+    </table>
+}
+
+<script type="text/javascript">
+    function RestoreEmailContent() {
+        $('html,body').animate({ scrollTop: $('#divEmailOperations').offset().top - 5 }, 'slow');
+    }
+</script>

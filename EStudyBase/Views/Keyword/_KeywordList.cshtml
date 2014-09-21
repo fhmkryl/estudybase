@@ -1,0 +1,82 @@
+﻿@using EStudyBase.ViewModels
+@model IEnumerable<KeywordViewModel>
+@{
+    string lastPage = Convert.ToString(ViewBag.LastPage);
+}
+
+<h3 class="solblockbaslik">@ViewBag.SectionHeader</h3>
+<div class="solblockmenu">
+    @if(Model.Any()) {
+        if(((SelectList)ViewBag.Pages).Count() > 1) {
+            <div class="pagination" style="margin: 0;">
+                <ul>
+                    <li class="prev">
+                        @Ajax.ActionLink("<<", "GetKeywordList", "Keyword", new KeywordSearchCriteriaViewModel {
+                       OperationType = ViewBag.OperationType,
+                       TagId = ViewBag.TagId,
+                       CurrentPage = ViewBag.FirstPage
+                   }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "LeftContent", InsertionMode = InsertionMode.Replace, OnComplete = "AjaxCompleted('LeftContent')" })
+                    </li>
+
+                    @if(ViewBag.CurrentPage > 1) {
+                        <li class="prev">
+                            @Ajax.ActionLink("<", "GetKeywordList", "Keyword", new KeywordSearchCriteriaViewModel {
+                           OperationType = ViewBag.OperationType,
+                           TagId = ViewBag.TagId,
+                           CurrentPage = ViewBag.CurrentPage,
+                           PageDirection = "Previous"
+                       }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "LeftContent", InsertionMode = InsertionMode.Replace, OnComplete = "AjaxCompleted('LeftContent')" })
+                        </li>
+                    }
+                    <li class="prev">
+                        @Html.DropDownList("KeywordPageList", (SelectList)ViewBag.Pages, new { style = "width:80px;margin-top:8px;" }) /
+                        @Ajax.ActionLink(lastPage, "GetKeywordList", "Keyword", new KeywordSearchCriteriaViewModel {
+                            OperationType = ViewBag.OperationType,
+                            TagId = ViewBag.TagId,
+                            CurrentPage = ViewBag.LastPage
+                        }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "LeftContent", InsertionMode = InsertionMode.Replace, OnComplete = "AjaxCompleted('LeftContent')" })
+                    </li>
+                    @if(Model.Count() == 20) {
+                        <li class="next">
+                            @Ajax.ActionLink(">", "GetKeywordList", "Keyword", new KeywordSearchCriteriaViewModel {
+                           OperationType = ViewBag.OperationType,
+                           TagId = ViewBag.TagId,
+                           CurrentPage = ViewBag.CurrentPage,
+                           PageDirection = "Next"
+                       }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "LeftContent", InsertionMode = InsertionMode.Replace, OnComplete = "AjaxCompleted('LeftContent')" })
+                        </li>
+                    }
+                    <li class="prev">
+                        @Ajax.ActionLink(">>", "GetKeywordList", "Keyword", new KeywordSearchCriteriaViewModel {
+                       OperationType = ViewBag.OperationType,
+                       TagId = ViewBag.TagId,
+                       CurrentPage = ViewBag.LastPage
+                   }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "LeftContent", InsertionMode = InsertionMode.Replace, OnComplete = "AjaxCompleted('LeftContent')" })
+                    </li>
+                </ul>
+        </div>
+        }
+    } else {
+        <div class="alert alert-error">Başlık bulunamadı!</div>
+    }
+    <ul style="margin:0;">
+        @foreach(var keywordViewModel in Model) {
+            <li>
+                <a href="/Keyword/Search?Term=@keywordViewModel.Definition" title="@keywordViewModel.Definition">@keywordViewModel.Definition</a>
+            </li>
+        }
+    </ul>
+
+
+
+    <script type="text/javascript">
+        $(function () {
+            $('#KeywordPageList').change(function () {
+                $.get('/Keyword/GetKeywordList/?currentPage=' + $(this).val() + '&pageDirection=none&operationType=@ViewBag.OperationType' + '&tagId=@ViewBag.TagId', {},
+                    function (data) {
+                        $('#LeftContent').html(data).fadeOut('fast').slideDown('slow');;
+                    }
+                );
+            });
+        });
+    </script>

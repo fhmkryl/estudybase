@@ -1,0 +1,77 @@
+﻿@using EStudyBase.Extensions
+@model EStudyBase.ViewModels.UserRoleSelectionViewModel
+
+
+<!-- Modal -->
+<div class="modal hide fade" id="modalUserRoleSelection" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/Content/custom")
+
+    <script type="text/javascript" src="/Scripts/Custom/mvc-bootstrap-integration.js"></script>
+    <script type="text/javascript" src="/Scripts/Custom/modal.js"></script>
+
+    <script type="text/javascript">
+        function RebuildModal(response) {
+            $('.modal-backdrop').each(function () {
+                $(this).remove();
+            });
+
+            $('#modalUserRoleSelection').replaceWith(response);
+            $('#modalUserRoleSelection').modal();
+        }
+    </script>
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="closeModal" type="button" class="close close-modal" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">@Model.UserName kullanıcısı için rol tanımla</h4>
+            </div>
+            <div style="height: 10px;"></div>
+            @using (Ajax.BeginForm("UserRoleSelection", "Management",
+                                   new AjaxOptions
+                                       {
+                                           OnSuccess = "RebuildModal"
+                                       }, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                if (ViewBag.Result != null)
+                {
+                    if (!ViewBag.Result)
+                    {
+                        if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+                        {
+                <div class="alert alert-error">@ViewBag.ResultMessage</div>
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+                        {
+                <div class="alert alert-success">@ViewBag.ResultMessage</div>
+                        }
+                    }
+                }
+                
+                @Html.HiddenFor(model => model.UserId)
+
+                <div class="control-group">
+                    @Html.LabelFor(model => model.UserRole, new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.UserRole, new SelectList(ViewBag.Roles, "Value", "Text"))
+                    </div>
+                    @Html.ValidationMessageFor(model => model.UserRole)
+                </div>
+                    
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+

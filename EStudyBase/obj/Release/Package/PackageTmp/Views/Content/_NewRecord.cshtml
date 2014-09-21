@@ -1,0 +1,44 @@
+﻿@model EStudyBase.ViewModels.CreateContentViewModel
+<h3 class="icerikbasliklari">yeni ses kaydı ekle</h3>
+@using (Ajax.BeginForm("CreateRecord", "Content",
+        new AjaxOptions
+            {
+            }, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+{
+    <div id="divRecordResult_@Model.KeywordId" style="display: none;"></div>
+    <div class="control-group">
+        <div class="controls" style="margin-left:0;">
+            <span style="padding-right:45px;font-size:14px;">Araçlar</span>
+            <a href="javascript:record($('#record_@Model.KeywordId'))" id="record_@Model.KeywordId" class="icon-play-circle" data-toggle="tooltip" title="Kaydetmeye başla" data-keywordid="@Model.KeywordId"></a>
+            <a href="javascript:play($('#play_@Model.KeywordId'))" id="play_@Model.KeywordId" class="icon-play" data-toggle="tooltip" title="Oynat" data-keywordid="@Model.KeywordId"></a>
+            <a href="javascript:stop($('#stop_@Model.KeywordId'))" id="stop_@Model.KeywordId" class="icon-stop" data-toggle="tooltip" title="Durdur" data-keywordid="@Model.KeywordId"></a>
+            @*
+            <a href="javascript:upload($('#upload_@Model.KeywordId'))" id="upload_@Model.KeywordId" class="icon-upload" data-toggle="tooltip" title="Yükle" data-keywordid="@Model.KeywordId"></a>
+            *@
+            <a href="#" id="time_@Model.KeywordId">0:00</a>
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(model => model.LanguageId, new { @class = "control-label" })
+        <div class="controls" style="margin-left: 85px;">
+            @Html.DropDownListFor(model => model.LanguageId, new SelectList(Model.Languages, "Value", "Text"))
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(model => model.ContentCategoryId, new { @class = "control-label" })
+        <div class="controls" style="margin-left: 85px;">
+            @Html.DropDownListFor(model => model.ContentCategoryId, new SelectList(Model.ContentCategories, "Value", "Text"))
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+        <div class="controls" style="margin-left: 85px;">
+            <textarea id="txtRecordDescription" name="txtRecordDescription"></textarea>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls saga" style="margin-left:0;margin-right:21px;">
+            <a href="javascript:upload($('#upload_@Model.KeywordId'))" id="upload_@Model.KeywordId" class="yesil-buton" data-toggle="tooltip" title="Upload" data-keywordid="@Model.KeywordId">kaydet</a>
+        </div>
+    </div>
+}

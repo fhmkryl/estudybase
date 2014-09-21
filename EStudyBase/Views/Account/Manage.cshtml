@@ -1,0 +1,63 @@
+﻿@model EStudyBase.Models.LocalPasswordModel
+
+
+@Html.ActionLink("Girdiğim İçerikler","UserPortfolio","Keyword",new {userName=WebSecurity.CurrentUserName},new {@class="yesil-buton"})
+@using (Ajax.BeginForm("Manage", "Account",
+                                       new AjaxOptions
+                                           {
+                                               UpdateTargetId = "divManage",
+                                               InsertionMode = InsertionMode.Replace
+                                           }, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+{
+    if (ViewBag.Result != null)
+    {
+        if (!ViewBag.Result)
+        {
+            if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+            {
+    <div class="alert alert-error">@ViewBag.ResultMessage</div>
+            }
+        }
+        else
+        {
+            if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+            {
+    <div class="alert alert-success">@ViewBag.ResultMessage</div>
+            }
+        }
+    }
+                    
+    <div class="mainheader">
+        <div class="sola" style="margin-top: 5px;">
+            <h2>şifre değiştirme</h2>
+        </div>
+    </div>
+    <div class="clear"></div>
+                    
+    <div class="control-group">
+        @Html.LabelFor(model => model.OldPassword, new { @class = "control-label" })
+        <div class="controls">
+            @Html.EditorFor(model => model.OldPassword)
+        </div>
+        @Html.ValidationMessageFor(model => model.OldPassword)
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(model => model.NewPassword, new { @class = "control-label" })
+        <div class="controls">
+            @Html.EditorFor(model => model.NewPassword)
+        </div>
+        @Html.ValidationMessageFor(model => model.NewPassword)
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label" })
+        <div class="controls">
+            @Html.EditorFor(model => model.ConfirmPassword)
+        </div>
+        @Html.ValidationMessageFor(model => model.ConfirmPassword)
+    </div>
+    <div class="control-group">
+        <div class="controls" style="margin-left: 323px;">
+            <input type="submit" value="kaydet" class="yesil-buton" />
+        </div>
+    </div>
+}

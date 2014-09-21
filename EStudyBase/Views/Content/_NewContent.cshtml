@@ -1,0 +1,76 @@
+﻿@model EStudyBase.ViewModels.CreateContentViewModel
+<h3 class="icerikbasliklari">yeni tanım ekle</h3>
+            @using (Ajax.BeginForm("CreateContent", "Content",
+                                   new AjaxOptions
+                                       {
+                                           InsertionMode = InsertionMode.Replace,
+                                           UpdateTargetId = "divOperations",
+                                           OnSuccess = "RestoreOperationsContent"
+                                       }, new { id = "ContentForm", enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.KeywordId)
+                <div id="Result">
+                    @if (ViewBag.Result != null)
+                    {
+                        if (!ViewBag.Result)
+                        {
+                            if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+                            {
+                        <div class="alert alert-error">@ViewBag.ResultMessage</div>
+                            }
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+                            {
+                        <div class="alert alert-success">@ViewBag.ResultMessage</div>
+                            }
+                        }
+                    }
+                </div>
+                
+                <div class="control-group">
+                    @Html.LabelFor(model => model.LanguageId, new { @class = "control-label" })
+                    <div class="controls" style="margin-left:85px;">
+                        @Html.DropDownListFor(model => model.LanguageId, new SelectList(Model.Languages, "Value", "Text"))
+                    </div>
+                    @Html.ValidationMessageFor(model => model.LanguageId)
+                </div>
+                
+                <div class="control-group">
+                    @Html.LabelFor(model => model.ContentCategoryId, new { @class = "control-label" })
+                    <div class="controls" style="margin-left:85px;">
+                        @Html.DropDownListFor(model => model.ContentCategoryId, new SelectList(Model.ContentCategories, "Value", "Text"))
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ContentCategoryId)
+                </div>
+
+                <div class="control-group">
+                    @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+                    <div class="controls" style="margin-left:85px;">
+                        @Html.TextAreaFor(model => model.Description, new { id = "txtDescription" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Description)
+                </div>          
+                <div class="control-group saga" style="margin-right:22px;">
+                    <div class="controls">
+                        <div id="upload" class="sola">
+                            <div id="drop" style="padding:0;border:none;border-radius:0;text-align:left;display:inline-block;">
+                                <a class="gri-buton" style="margin-right:20px;">dosya ekle *</a>
+                                <input type="file" name="PostedFile" />
+                            </div>
+                            @*<ul>
+                                <!-- The file uploads will be shown here -->
+                            </ul>*@
+                        </div>
+                        <input id="BtnCreateContent" type="submit" value="kaydet" class="yesil-buton"/>
+                    </div>
+                </div>
+                <div class="control-group saga" style="margin-right:22px;">
+                    <div class="controls">
+                        <div class="progress progress-striped active"><div id="FileUploadProgress" class="bar"></div><span id="Percentage">%0</span></div>
+                        <div class="alert alert-error" style="font-style: italic;font-size: 11px;width: 485px;height: 20px;">* Desteklenen dosya formatları: jpg,jpe,bmp,gif,png,avi,mp4,flv,mov,m4v,f4v</div> 
+                    </div>
+                </div>
+            }

@@ -1,0 +1,59 @@
+﻿@model EStudyBase.ViewModels.EmailViewModel
+            @using (Ajax.BeginForm("EmailToUser", "Email",
+                                   new AjaxOptions
+                                       {
+                                           UpdateTargetId = "divEmailOperations",
+                                           InsertionMode = InsertionMode.Replace
+                                       }, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.ToUserId)
+                @Html.HiddenFor(model => model.UserName)
+     
+                if (ViewBag.Result != null)
+                {
+                    if (!ViewBag.Result)
+                    {
+                        if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+                        {
+                            <div class="alert alert-error">@ViewBag.ResultMessage</div>
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+                        {
+                            <div class="alert alert-success">@ViewBag.ResultMessage</div>
+                        }
+                    }
+                }
+                <h3 class="icerikbasliklari">mesaj gönder</h3>
+                <div class="control-group">
+                    <label class="control-label">Kime</label>
+                    <div class="controls" style="margin-left:85px;">
+                        @Html.ActionLink(Model.UserName, "UserPortfolio", "Keyword", new { UserName = Model.UserName }, new { target = "_blank",@class="btn" })
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    @Html.LabelFor(model => model.Subject, new { @class = "control-label" })
+                    <div class="controls" style="margin-left:85px;">
+                        @Html.TextBoxFor(model => model.Subject)
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Subject)
+                </div>
+
+                <div class="control-group">
+                    @Html.LabelFor(model => model.Body, new { @class = "control-label" })
+                    <div class="controls" style="margin-left:85px;">
+                        @Html.TextAreaFor(model => model.Body)
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Body)
+                </div>
+                
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" value="gönder" class="saga yesil-buton" style="margin-right:20px;" />
+                    </div>
+                </div>
+            }

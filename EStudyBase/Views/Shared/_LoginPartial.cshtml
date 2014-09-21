@@ -1,0 +1,12 @@
+﻿@if (Request.IsAuthenticated) {
+    @Html.ActionLink("profilim","Manage","Account")
+    <form action="/Account/LogOff" id="logoutForm" method="post" novalidate="novalidate" class="form-horizontal saga" data-original-title="" title="" style="margin:0;display:inline;">
+        <a href="javascript:document.getElementById('logoutForm').submit()" data-original-title="" title="">çıkış </a>
+    </form><br />
+        
+} 
+else
+{
+    @Html.ActionLink("giriş","Login","Account",null,new {style="margin-right:30px;margin-top:7px;display:inline-block;font-size:15px;"})    
+    @Html.ActionLink("kayıt ol","Register","Account",null,new {style="font-size:15px;"})
+}

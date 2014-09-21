@@ -1,0 +1,221 @@
+﻿@using System.Text.RegularExpressions
+@using EStudyBase.Models
+@using EStudyBase.ViewModels
+@model ContentListViewModel
+@{
+    var imageExtensions = new List<string> {".JPG", ".JPE", ".BMP", ".GIF", ".PNG"};
+}
+
+@if (Model != null)
+{
+    if (Model.Contents.Any())
+    {
+        if (Model.Pages.Count() > 1)
+        {
+            <div id="sonraki-main" class="pagination" style="margin-top: 0;">
+                <ul>
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <li class="prev">
+                            @Ajax.ActionLink("<< Önceki", "GetContentList", "Keyword", new
+                                {
+                                    currentPage = Model.CurrentPage,
+                                    pageDirection = "Previous",
+                                    keywordId = Model.KeywordId,
+                                    userId = Model.UserId
+                                }, new AjaxOptions {HttpMethod = "GET", UpdateTargetId = "tableSearchResults", InsertionMode = InsertionMode.Replace})
+                        </li>
+                    }
+                    @if (Model.Contents.Count() == 10)
+                    {
+                        <li class="next">
+                            @Ajax.ActionLink("Sonraki >>", "GetContentList", "Keyword", new
+                                {
+                                    currentPage = Model.CurrentPage,
+                                    pageDirection = "Next",
+                                    keywordId = Model.KeywordId,
+                                    userId = Model.UserId
+                                }, new AjaxOptions {HttpMethod = "GET", UpdateTargetId = "tableSearchResults", InsertionMode = InsertionMode.Replace})
+                        </li>
+                    }
+                </ul>
+                @Html.DropDownList("ContentPageList1", Model.Pages, new {style = "width:80px;margin-top:-13px;"})
+            </div>
+            <div class="clear"></div>
+        }
+        int index = 1;
+        foreach (Content content in Model.Contents)
+        {
+            <div class="icerikgosterim">
+                <div class="sola iceriksay">
+                    @(index + 10*(Model.CurrentPage - 1))
+                </div>
+                <div class="saga iceriksay">
+                    @if (WebSecurity.CurrentUserId == content.CreateUserId)
+                    {
+                        @Ajax.ActionLink(" ", "DeleteContent", "Content", new {contentId = content.ContentId}, new AjaxOptions(), new {@class = "icon-remove", title = "İçeriği Sil"})
+                    }
+                </div>
+                <div class="sola iceriktext">
+
+                    @if (content.ContentTypeId == 2)
+                    {
+                        if (Regex.IsMatch(Request.UserAgent, @"Trident/7.*rv:11") || Request.Browser.Type.Contains("IE"))
+                        {
+                            <div class="clear"></div>
+                            <img class="icon-play" data-url="@content.Url" onclick=" PlayCurrentItem(this); " style="cursor: pointer;" />
+                        }
+                        else
+                        {
+                            <div class="clear"></div>
+                            <div>
+                                <audio controls>
+                                    <source src="@content.Url" type="audio/wav"/>
+                                </audio>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrWhiteSpace(content.Url))
+                        {
+                            var extension = Path.GetExtension(content.Url);
+                            if (extension != null && imageExtensions.Contains(extension.ToUpperInvariant()))
+                            {
+                                <div class="clear"></div>
+                                <img align="right" src="@content.Url" style="height: 250px; width: 350px;" alt="@Model.Term"/>
+                                <br/>
+                            }
+                            else
+                            {
+                                <div class="clear"></div>
+                                <a class="player" style="height: 250px; width: 350px; display: block" href='@content.Url'></a>
+                            }
+                        }
+                    }
+                    @MvcHtmlString.Create(content.Description)
+                </div>
+                <div class="clear"></div>
+                <div class="icerikalttext">
+                    <div class="sola">
+                        <img style="margin-top: -3px; margin-right: 10px;" src="/Content/custom/images/usericon.png" alt="">
+                        <span>@Html.ActionLink(content.CreateUser != null ? content.CreateUser.UserName : "Anonym", "UserPortfolio", "Keyword", new
+                                  {
+                                      UserName = content.CreateUser != null ? content.CreateUser.UserName : "Anonym"
+                                  }, new {target = "_blank"})</span>
+                        <span>@content.CreateDate</span>
+                        <span>@content.ContentCategory.Definition</span>
+                    </div>
+                    <div class="saga">
+                        @{
+                            Html.RenderPartial("_Like", new LikeViewModel
+                                {
+                                    SourceId = content.ContentId,
+                                    SourceTypeId = 2,
+                                    KeywordId = content.KeywordId,
+                                    LikeCount = content.LikeCount,
+                                    DislikeCount = content.DislikeCount,
+                                    AlreadyVoted = false
+                                });
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+            index++;
+        }
+        if (Model.Pages.Count() > 1)
+        {
+            <div class="pagination" style="margin: 0; position: absolute; z-index: 2; top: auto; right: 0;">
+                <ul>
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <li class="prev">
+                            @Ajax.ActionLink("<< Önceki", "GetContentList", "Keyword", new
+                                {
+                                    currentPage = Model.CurrentPage,
+                                    pageDirection = "Previous",
+                                    keywordId = Model.KeywordId,
+                                    userId = Model.UserId
+                                }, new AjaxOptions {HttpMethod = "GET", UpdateTargetId = "tableSearchResults", InsertionMode = InsertionMode.Replace})
+                        </li>
+                    }
+                    @if (Model.Contents.Count() == 10)
+                    {
+                        <li class="next">
+                            @Ajax.ActionLink("Sonraki >>", "GetContentList", "Keyword", new
+                                {
+                                    currentPage = Model.CurrentPage,
+                                    pageDirection = "Next",
+                                    keywordId = Model.KeywordId,
+                                    userId = Model.UserId
+                                }, new AjaxOptions {HttpMethod = "GET", UpdateTargetId = "tableSearchResults", InsertionMode = InsertionMode.Replace})
+                        </li>
+                    }
+                </ul>
+                @Html.DropDownList("ContentPageList2", Model.Pages, new {style = "width:80px;margin-top:-13px;"})
+            </div>
+            <div class="clear"></div>
+        }
+        if (Regex.IsMatch(Request.UserAgent, @"Trident/7.*rv:11") || Request.Browser.Type.Contains("IE"))
+        {
+            <!-- IE Wav Player Bug Fix !-->
+            <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+                    width="40"
+                    height="40"
+                    id="audio1"
+                    align="middle">
+                <embed src="/Content/wavplayer/wavplayer.swf?gui=mini&h=20&w=300&sound=success.wav&"
+                       bgcolor="#ffffff"
+                       width="40"
+                       height="40"
+                       allowScriptAccess="always"
+                       type="application/x-shockwave-flash"
+                       pluginspage="http://www.macromedia.com/go/getflashplayer"
+                    />
+            </object>
+            <!-- IE Wav Player Bug Fix !-->
+        }
+    }
+    else
+    {
+        <div class="alert alert-error">Bu başlık için içerik girilmemiş. İlk içeriği sen gir ve arkadaşlarınla paylaş!</div>
+    }
+}
+else
+{
+    <div class="alert alert-error">Başlık bilgisi bulunamadı!</div>
+}
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#ContentPageList1').change(function () {
+            $.get('/Keyword/GetContentList/?currentPage=' + $(this).val() + '&pageDirection=none&keywordId=@Model.KeywordId' + '&userId=@Model.UserId', {},
+                function (data) {
+                    $('#tableSearchResults').html(data);
+                }
+            );
+        });
+        $('#ContentPageList2').change(function () {
+            $.get('/Keyword/GetContentList/?currentPage=' + $(this).val() + '&pageDirection=none&keywordId=@Model.KeywordId' + '&userId=@Model.UserId', {},
+                function (data) {
+                    $('#tableSearchResults').html(data);
+                }
+            );
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    flowplayer("a.player", "/Content/flowplayer/flowplayer-3.2.16.swf", {
+        plugins: {
+            pseudo: { url: "/Content/flowplayer/flowplayer.pseudostreaming-3.2.12.swf" }
+        },
+        clip: { provider: 'pseudo', autoPlay: false },
+    });
+</script>
+

@@ -1,0 +1,45 @@
+﻿@model EStudyBase.ViewModels.UserPortfolioViewModel
+
+@{
+    ViewBag.Title = Model != null ? Model.UserName : "Anonym";
+}
+
+@if (Model != null)
+{
+
+    
+    
+    
+    
+    
+    <div class="mainheader">
+        <div class="sola responsive2" style="width: 465px; margin-top: 5px; min-height: 90px;">
+            <h2>@Html.ActionLink(Model.UserName, "UserPortfolio", "Keyword", new { userName = Model.UserName }, null)</h2>
+            <br />
+            @if (Model.Keywords != null && Model.Keywords.Any())
+            {
+                <div>
+                    @foreach (var keyword in Model.Keywords)
+                    {
+                        <span><a class="tagtext" href="/Keyword/Search?Term=@keyword.Definition" title="@keyword.Definition">@keyword.Definition</a></span>
+                    }
+                </div>
+            }
+        </div>
+        <div class="saga" style="margin-top: 35px;">
+            @Html.ActionLink("mesaj gönder", "EmailBox", "Email", new { userName = Model.UserName }, new { target = "_blank", @class = "yesil-buton saga" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    
+    <!-- Contents -->
+            if (Model.Contents != null && Model.Contents.Any())
+            {
+    <div id="tableSearchResults">
+        @{
+                Html.RenderAction("GetContentList", "Keyword", new { userId = Model.UserId });
+        }
+    </div>
+            }
+    <!-- Contents -->
+}

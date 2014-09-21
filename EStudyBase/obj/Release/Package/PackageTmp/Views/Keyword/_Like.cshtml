@@ -1,0 +1,55 @@
+﻿@model EStudyBase.ViewModels.LikeViewModel
+
+<div id="divLike_@Model.SourceId">
+
+    @Ajax.ActionLink(" ", "LikeDislike", "Keyword",
+                     new { keywordId = Model.KeywordId, sourceId = Model.SourceId, sourceTypeId = Model.SourceTypeId, status = 1 },
+                     new AjaxOptions
+                         {
+                             UpdateTargetId = "divLike_" + Model.SourceId,
+                             InsertionMode = InsertionMode.Replace,
+                             OnComplete = "AjaxCompleted('divLike_" + Model.SourceId + "')"
+                         }, new { @class = " icon-thumbs-up", title = "Beğen" })
+    @Model.LikeCount
+
+    @Ajax.ActionLink(" ", "LikeDislike", "Keyword",
+                     new { keywordId = Model.KeywordId, sourceId = Model.SourceId, sourceTypeId = Model.SourceTypeId, status = 0 },
+                     new AjaxOptions
+                         {
+                             UpdateTargetId = "divLike_" + Model.SourceId,
+                             InsertionMode = InsertionMode.Replace,
+                             OnComplete = "AjaxCompleted('divLike_" + Model.SourceId + "')"
+                         }, new { @class = "icon-thumbs-down", title = "Beğenme" })
+    @Model.DislikeCount
+
+    <img class="icon-share" onclick="LoadExternalResources(@Model.SourceId)" style="cursor: pointer;" title="Paylaş"/>
+    <div id="divSocialNetworks_@Model.SourceId"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="divSocialNetworksHeader">Paylaş</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="divSocialNetworksContent_@Model.SourceId">
+                    </div>
+                    <!--facebook-->
+                    <div class="sola" id="facebook_@Model.SourceId" style="margin-right: 6px;">
+                    </div>
+                    <!--facebook_bitti-->
+                    <!--googleplus-->
+                    <div class="sola" id="google_@Model.SourceId" style="margin-right: 5px;"></div>
+                    <!--googleplus_bitti-->
+                    <!--twitter-->
+                    <div class="sola" id="twitter_@Model.SourceId">
+                    </div>
+                    <!--twitter-bitti-->
+                </div>
+            </div>
+        </div>
+    </div>
+    @Ajax.ActionLink(" ", "Complain", "Keyword",
+                     new { contentId = Model.SourceId },
+                     new AjaxOptions(), new { @class = "icon-flag", title = "Şikayet Et" })
+    
+</div>

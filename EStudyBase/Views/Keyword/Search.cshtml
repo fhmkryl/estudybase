@@ -1,0 +1,63 @@
+﻿@using EStudyBase.ViewModels
+@model SearchViewModel
+
+@{
+    ViewBag.Title = Model != null ? Model.Definition : "EStudyBase";
+}
+
+@if(Model != null && Model.KeywordId > 0) {
+    <div class="mainheader">
+        <div class="sola responsive2" style="width: 465px; margin-top: 5px; min-height: 92px;">
+            <h2>@Html.ActionLink(Model.SearchCriteria.Term, "Search", "Keyword", new { Term = Model.SearchCriteria.Term }, null)</h2>
+            @if(Model.Order > 0) {
+                <a class="sozluk-sirasi" href="javascript:;" title="Sözlük Sırası">@Model.Order<span style="font-size: 12px;">. sırada!</span></a>
+            }
+            <a class="seslendir" href="javascript:;" title="Telaffuz"></a><br />
+            @{
+    Html.RenderAction("GetKeywordTagList", "Keyword", new { keywordId = Model.KeywordId });
+            }
+            <br />
+            @if(!string.IsNullOrWhiteSpace(Model.Synonym)) {
+                <span class="eszit">eş anlam : </span>
+                <span style="font-size: 11px; color: #418f03; margin-right: 20px;">
+
+                    <span>@Html.ActionLink(Model.Synonym, "Search", "Keyword", new { Term = Model.Synonym }, null)</span>
+                </span>
+
+            }
+            @if(!string.IsNullOrWhiteSpace(Model.Antonym)) {
+                <span class="eszit">zıt anlam : </span>
+                <span style="font-size: 11px; color: #418f03;">
+
+                    <span>@Html.ActionLink(Model.Antonym, "Search", "Keyword", new { Term = Model.Antonym }, null)</span>
+                </span>
+
+            }
+            <div>
+                @Html.ActionLink("Türkçe", "Search", "Keyword", new { Term = Model.SearchCriteria.Term, LanguageId = 1 }, null)
+                @Html.ActionLink("English", "Search", "Keyword", new { Term = Model.SearchCriteria.Term, LanguageId = 2 }, null)
+            </div>
+        </div>
+        <div class="saga" style="margin-top: 35px;">
+            @Ajax.ActionLink("yeni başlık ekle", "CreateKeyword", "Content", new { keywordId = Model.KeywordId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "divOperations", OnSuccess = "RestoreOperationsContent" }, new { @class = "yesil-buton", style = "margin-right:20px;" })
+            @Ajax.ActionLink("yeni tanım ekle", "CreateContent", "Content", new { keywordId = Model.KeywordId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "divOperations", OnSuccess = "RestoreOperationsContent" }, new { @class = "yesil-buton", style = "margin-right:20px;" })
+            @Ajax.ActionLink("ses kaydı ekle", "CreateRecord", "Content", new { keywordId = Model.KeywordId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "divOperations", OnSuccess = "RestoreOperationsContent" }, new { @class = "gri-buton" })
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <!-- Contents -->
+    <div id="tableSearchResults">
+        @{
+            Html.RenderAction("GetContentList", "Keyword", 
+                new {
+                    KeywordId = Model.KeywordId, 
+                    ContentId = Model.SearchCriteria.ContentId, 
+                    LanguageId = Model.SearchCriteria.LanguageId
+                });
+        }
+    </div>
+    <!-- Contents -->
+} else {
+    Html.RenderPartial("_RelatedKeywords", Model);
+}

@@ -1,0 +1,8 @@
+﻿@model EStudyBase.ViewModels.ContentViewModel 
+
+<br />
+<br />
+@{
+    Html.RenderAction("GetContentList", "Keyword", new { keywordId = Model.KeywordId, contentId = Model.ContentId });
+}
+

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<EStudyBase.Models.Tag>
+
+@{
+    int index = 0;
+}
+@foreach (var tagParent in Model)
+{
+    index++;
+    if (tagParent.TagParentId == null)
+    {
+    <li class="dropdown pull-right">
+        <a id="drop_@index" role="button" data-toggle="dropdown" href="#">@tagParent.Definition<b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="drop_@index">
+            @foreach (var tagSub in Model)
+            {
+                if (tagSub.TagParentId == tagParent.TagId)
+                {
+                <li>
+                    @Ajax.ActionLink("#"+tagSub.Definition, "GetKeywordList", "Keyword",
+                        new { operationType = "GetKeywordListByTag", tagId = tagSub.TagId },
+                        new AjaxOptions
+                            {
+                                HttpMethod = "GET",
+                                UpdateTargetId = "LeftContent",
+                                InsertionMode = InsertionMode.Replace,
+                                OnComplete = "AjaxCompleted('LeftContent')"
+                            })
+                </li>
+                }
+
+            }
+        </ul>
+    </li>
+    }
+}

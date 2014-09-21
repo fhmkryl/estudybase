@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/bundles/bootstrap/css")
+    @Styles.Render("~/bundles/datatables/css")
+    <link rel="stylesheet" type="text/css" href="/Content/sitestyle/style.css" />
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap/js")
+    @Scripts.Render("~/bundles/datatables")
+    <script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    
+    <!-- Html Editor -->
+    <link href="/Content/bootstrap-wysihtml5/bootstrap-wysihtml5.css" rel="stylesheet" />
+    <script src="/Content/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
+    <script src="/Content/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
+    
+    <!-- jQuery File Upload Dependencies -->
+    <link rel="stylesheet" type="text/css" href="/Content/fileupload/assets/css/style.css" />
+    <script src="/Content/fileupload/assets/js/jquery.knob.js"></script>
+    <script src="/Content/fileupload/assets/js/jquery.ui.widget.js"></script>
+    <script src="/Content/fileupload/assets/js/jquery.iframe-transport.js"></script>
+    <script src="/Content/fileupload/assets/js/jquery.fileupload.js"></script>
+    <script src="/Content/fileupload/assets/js/script.js"></script>
+
+    @Scripts.Render("~/bundles/custom/js")
+    <script type="text/javascript" src="/Scripts/CustomBackend/management.js"></script>
+    <style type="text/css">
+        .checkbox-container
+        {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            width: 700px;
+            height: 100px;
+            border-radius: 4px;
+            overflow-y: scroll;
+        }
+    </style>
+    <style type="text/css">
+        textarea {
+           width: 700px;
+           height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <ul class="nav nav-pills">
+            <li class="active"><a href="/Keyword/Search">Siteye Dön</a></li>
+            <li><a href="/Management/KeywordList">Başlıklar</a></li>
+            @if(Roles.IsUserInRole(WebSecurity.CurrentUserName,"Admin"))
+            {
+                <li><a href="/Management/UserList">Kullanıcılar</a></li>
+            }
+            @Html.Partial("_LoginPartial")
+        </ul>
+        @RenderSection("featured", required: false)
+        <section>
+            @RenderBody()
+        </section>
+        
+        <div id="Loading" style="display: none;">
+            <img alt="Yükleniyor..." src="/Images/icons/ajax-loader.gif">
+        </div>
+
+        @RenderSection("scripts", required: false)
+    </div>
+    
+    <script type="text/javascript">
+        function RestoreOperationsContent() {
+            $('textarea').wysihtml5();
+            $('html,body').animate({ scrollTop: $('body').offset().top }, 'slow');
+        }
+    </script>
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('textarea').wysihtml5();
+        });
+    </script>
+    <script type="text/javascript">
+        $(document)
+            .bind("ajaxSend", function () {
+                $("#Loading").show();
+            })
+            .bind("ajaxComplete", function () {
+                $("#Loading").hide();
+            })
+            .bind('ajaxError', function () {
+                $("#Loading").hide();
+            });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $(document).ajaxError(function (e, xhr) {
+                if (xhr.status == 403) {
+                    $('#Login').click();
+                }
+            });
+        });
+    </script>
+    
+    <script type="text/javascript">
+        $(function () {
+            window.onerror = function (message, url, line) {
+                bootbox.alert('İşleminiz gerçekleştirilirken hata oluştu, lütfen tekrar deneyiniz!');
+                console.log(message);
+                return true; //if you return true it overrides default browser error message, at least it should
+            };
+        });
+    </script>
+</body>
+</html>

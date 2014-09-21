@@ -1,0 +1,72 @@
+﻿@model EStudyBase.Models.LoginModel
+@{
+    ViewBag.Title = "Giriş";
+}
+
+<div id="divLogin"> 
+    <div class="mainheader">
+        <div class="sola" style="margin-top: 5px;">
+            <h2>giriş</h2>
+        </div>
+    </div>
+    <div class="clear"></div>
+    @using (Ajax.BeginForm("Login", "Account",
+                                       new AjaxOptions
+                                           {
+                                               UpdateTargetId = "divLogin",
+                                               InsertionMode = InsertionMode.Replace
+                                           }, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+    {
+        if (ViewBag.Result != null)
+        {
+            if (!ViewBag.Result)
+            {
+                if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+                {
+        <div class="alert alert-error">@ViewBag.ResultMessage</div>
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+                {
+        <div class="alert alert-success">@ViewBag.ResultMessage</div>
+                }
+            }
+        }
+        <div class="control-group">
+            @Html.LabelFor(model => model.UserName, new { @class = "control-label" })
+            <div class="controls" style="margin-left: 110px;">
+                @Html.EditorFor(model => model.UserName)
+            </div>
+            @Html.ValidationMessageFor(model => model.UserName)
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Password, new { @class = "control-label" })
+            <div class="controls" style="margin-left: 110px;">
+                @Html.EditorFor(model => model.Password)
+            </div>
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+        <div class="control-group sola">
+            <div class="controls" style="margin-left: 160px;">
+                @Html.CheckBoxFor(m => m.RememberMe, new { style = "float:left;" })
+                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls" style="margin-left: 20px;">
+                <input type="submit" value="Giriş" class="yesil-buton" />
+            </div>
+        </div>
+                    
+    }
+    <div style="padding-left: 255px;">
+        <div class="sola" style="padding-right: 82px;">
+            @Html.ActionLink("Şifremi unuttum", "ForgotPassword", "Account")
+        </div>
+        @*@Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })*@
+    </div>
+    <div class="clear"></div>
+</div>
+

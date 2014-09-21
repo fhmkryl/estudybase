@@ -1,0 +1,83 @@
+﻿<li class="dropdown pull-left">
+    <a class="mesaj-drop-menu-desing" id="drop_23" role="button" data-toggle="dropdown" href="#">mesaj seçiniz<b class="caretsiyah"></b></a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="drop_23">
+        <li>
+            <div>
+                @Ajax.ActionLink("Tümü ", "GetEmailBox", "Email",
+                                     new { operationType = "All" },
+                                     new AjaxOptions
+                                         {
+                                             UpdateTargetId = "divEmailList",
+                                             InsertionMode = InsertionMode.Replace
+                                         })
+                <span class="badge">@ViewBag.AllCount</span>
+            </div>
+        </li>
+        <li>
+            <div>
+                @Ajax.ActionLink("Gelen ", "GetEmailBox", "Email",
+                                     new { operationType = "Inbox" },
+                                     new AjaxOptions
+                                         {
+                                             UpdateTargetId = "divEmailList",
+                                             InsertionMode = InsertionMode.Replace
+                                         })
+                <span class="badge">@ViewBag.InboxCount</span>
+            </div>
+        </li>
+        <li>
+            <div>
+                @Ajax.ActionLink("Giden ", "GetEmailBox", "Email",
+                                     new { operationType = "Outbox" },
+                                     new AjaxOptions
+                                         {
+                                             UpdateTargetId = "divEmailList",
+                                             InsertionMode = InsertionMode.Replace
+                                         })
+                <span class="badge">@ViewBag.OutboxCount</span>
+            </div>
+        </li>
+        <li>
+            <div>
+                @Ajax.ActionLink("Okunmamış ", "GetEmailBox", "Email",
+                                 new { operationType = "UnRead" },
+                                 new AjaxOptions
+                                     {
+                                         UpdateTargetId = "divEmailList",
+                                         InsertionMode = InsertionMode.Replace
+                                     })
+                <span class="badge">@ViewBag.UnReadCount</span>
+            </div>
+        </li>
+        <li>
+            <div>
+                @Ajax.ActionLink("Silinen ", "GetEmailBox", "Email",
+                     new { operationType = "Deleted" },
+                     new AjaxOptions
+                         {
+                             UpdateTargetId = "divEmailList",
+                             InsertionMode = InsertionMode.Replace
+                         })
+                <span class="badge">@ViewBag.DeletedCount</span>
+            </div>
+        </li>
+    </ul>
+</li>
+<div class="clear"></div>
+
+<div id="divEmailList">
+    @{
+        Html.RenderAction("GetEmailBox", "Email", new { });
+    }
+</div>
+
+<div id="divEmailOperations" class="yeniicerikekle">
+    @if (ViewBag.ToUserId > 0)
+    {
+        Html.RenderAction("EmailToUser", "Email", new { userId = ViewBag.ToUserId });
+    }
+    @if (ViewBag.EmailId > 0)
+    {
+        Html.RenderAction("GetEmailContent", "Email", new { emailId = ViewBag.EmailId });
+    }
+</div>

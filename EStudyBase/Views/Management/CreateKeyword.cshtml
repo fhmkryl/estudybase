@@ -1,0 +1,109 @@
+﻿@using EStudyBase.Extensions
+@model EStudyBase.ViewModels.KeywordViewModel
+@{
+    ViewBag.Title = "Başlık Ekle";
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_BackEndLayout.cshtml";
+    }
+}
+
+<div id="divCreateKeyword">
+    <table class="table table-striped table-bordered table-condensed table-hover table-centered">
+        <tr>
+            <td>
+                @using (Ajax.BeginForm("CreateKeyword", "Management",
+                                           new AjaxOptions
+                                               {
+                                                   UpdateTargetId = "divCreateKeyword",
+                                                   InsertionMode = InsertionMode.Replace,
+                                                   OnComplete = "RestoreOperationsContent"
+                                               }, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+                {
+                    @Html.ValidationSummary(true)
+                    if (ViewBag.Result != null)
+                    {
+                        if (!ViewBag.Result)
+                        {
+                            if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+                            {
+                    <div class="alert alert-error">@ViewBag.ResultMessage</div>
+                            }
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+                            {
+                    <div class="alert alert-success">@ViewBag.ResultMessage</div>
+                            }
+                        }
+                    }
+                    
+                    <div class="control-group">
+                        @Html.LabelFor(model => model.Definition, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Definition)
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Definition)
+                    </div>
+
+                    <div class="control-group">
+                        @Html.LabelFor(model => model.Synonym, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Synonym)
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Synonym)
+                    </div>
+
+                    <div class="control-group">
+                        @Html.LabelFor(model => model.Antonym, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Antonym)
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Antonym)
+                    </div>
+
+                    <div class="control-group">
+                        @Html.LabelFor(model => model.Order, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Order)
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Order)
+                    </div>
+
+                    <div class="control-group">
+                        @Html.LabelFor(model => model.LanguageId, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.LanguageId, new SelectList(Model.Languages, "Value", "Text"))
+                        </div>
+                        @Html.ValidationMessageFor(model => model.LanguageId)
+                    </div>
+                     
+                    <div class="control-group">
+                        @Html.LabelFor(model => model.Tags, new { @class = "control-label" })
+                        <div class="controls">
+                            <div class="checkbox-container">
+                                @Html.CheckBoxListFor("SelectedTags", Model.Tags, "Definition", "TagId", Model.SelectedTags)
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.SelectedTags)
+                    </div>
+
+                    <div class="control-group">
+                        @Html.LabelFor(model => model.Approved, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.CheckBoxFor(model => model.Approved)
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Approved)
+                    </div>
+
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type="submit" value="Oluştur" class="btn btn-primary" />
+                        </div>
+                    </div>
+                }
+            </td>
+        </tr>
+    </table>
+</div>

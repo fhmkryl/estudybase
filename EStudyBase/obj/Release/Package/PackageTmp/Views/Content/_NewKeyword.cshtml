@@ -1,0 +1,83 @@
+﻿@using EStudyBase.Extensions
+@model EStudyBase.ViewModels.KeywordViewModel
+@{
+    ViewBag.Title = "Create Keyword";
+}
+
+
+<h3 class="icerikbasliklari">yeni başlık ekle</h3>
+@using (Ajax.BeginForm("CreateKeyword", "Keyword",
+                                           new AjaxOptions
+                                               {
+                                                   InsertionMode = InsertionMode.Replace,
+                                                   UpdateTargetId = "divOperations",
+                                                   OnSuccess = "RestoreOperationsContent"
+                                               }, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+{
+    @Html.ValidationSummary(true)
+    if (ViewBag.Result != null)
+    {
+        if (!ViewBag.Result)
+        {
+            if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+            {
+    <div class="alert alert-error">@ViewBag.ResultMessage</div>
+            }
+        }
+        else
+        {
+            if (!string.IsNullOrWhiteSpace(ViewBag.ResultMessage))
+            {
+    <div class="alert alert-success">@ViewBag.ResultMessage</div>
+            }
+        }
+    }
+
+    <div class="control-group">
+        @Html.LabelFor(model => model.Definition, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.Definition)
+        </div>
+        @Html.ValidationMessageFor(model => model.Definition)
+    </div>
+                    
+    <div class="control-group">
+        @Html.LabelFor(model => model.Synonym, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.Synonym)
+        </div>
+        @Html.ValidationMessageFor(model => model.Synonym)
+    </div>
+
+    <div class="control-group">
+        @Html.LabelFor(model => model.Antonym, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.Antonym)
+        </div>
+        @Html.ValidationMessageFor(model => model.Antonym)
+    </div>
+
+    <div class="control-group">
+        @Html.LabelFor(model => model.LanguageId, new { @class = "control-label" })
+        <div class="controls">
+            @Html.DropDownListFor(model => model.LanguageId, new SelectList(Model.Languages, "Value", "Text"))
+        </div>
+        @Html.ValidationMessageFor(model => model.LanguageId)
+    </div>
+                     
+    <div class="control-group">
+        @Html.LabelFor(model => model.Tags, new { @class = "control-label" })
+        <div class="controls">
+            <div class="checkbox-container" style="width: 440px;">
+                @Html.CheckBoxListFor("SelectedTags", Model.Tags, "Definition", "TagId", Model.SelectedTags)
+            </div>
+        </div>
+        @Html.ValidationMessageFor(model => model.SelectedTags)
+    </div>
+
+    <div class="control-group saga" style="margin-right:22px;">
+        <div class="controls">
+            <input type="submit" value="kaydet" class="yesil-buton"/>
+        </div>
+    </div>
+}

@@ -1,0 +1,4 @@
+<Modules>
+  <Module PersistentId="FF9EC18E-40CC-4501-B8D6-B708B138856F" ModuleId="EStudyBase" />
+  <Module PersistentId="System.ComponentModel.DataAnnotations, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" ModuleId="System.ComponentModel.DataAnnotations" />
+</Modules>

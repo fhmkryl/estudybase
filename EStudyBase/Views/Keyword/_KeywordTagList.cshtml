@@ -1,0 +1,25 @@
+﻿@using EStudyBase.ViewModels
+@model IEnumerable<EStudyBase.Models.KeywordTag>
+@if (Model != null && Model.Any())
+{
+    <b class="tagtext">Etiketler</b>    
+    foreach (var keywordTag in Model)
+    {
+        <span>
+
+            @Ajax.ActionLink("#" + keywordTag.Tag.Definition, "GetKeywordList", "Keyword",
+                              new KeywordSearchCriteriaViewModel {
+                                  OperationType = "GetKeywordListByTag", 
+                                  TagId = keywordTag.TagId
+                              },
+                             new AjaxOptions
+                                 {
+                                     HttpMethod = "GET",
+                                     UpdateTargetId = "LeftContent",
+                                     InsertionMode = InsertionMode.Replace,
+                                     OnComplete = "AjaxCompleted('LeftContent')"
+                                 }, new {@class = "tagtext", title = keywordTag.Tag.Definition})
+        </span>
+
+    }
+}
