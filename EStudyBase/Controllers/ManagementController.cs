@@ -333,7 +333,7 @@ namespace EStudyBase.Controllers
                                               Approved = p.Approved,
                                               Complaint = p.Complaint,
                                               CreateDate = p.CreateDate,
-                                              ContentTypeId = p.ContentTypeId,
+                                              ContentType = p.ContentType,
                                               Url = p.Url
                                           });
 
@@ -388,13 +388,13 @@ namespace EStudyBase.Controllers
                         @"<td>
                               <input type='checkbox' title='Onayla' data-toggle='tooltip' data-content-id='{0}' data-content-type='{1}' onclick='ToggleContentActivation(this);' {2} />
                         </td>",
-                        content.ContentId, content.ContentTypeId, content.Approved ? "checked" : ""));
+                        content.ContentId, content.ContentType, content.Approved ? "checked" : ""));
 
                 operations.Append(
                     string.Format(
                         @"<td>
                                <div class='icon-remove-sign' title='Sil' data-toggle='tooltip' style='cursor:pointer;' data-content-id='{0}' data-content-type='{1}' onclick='DeleteContent(this);'></div>
-                          </td>", content.ContentId, content.ContentTypeId));
+                          </td>", content.ContentId, content.ContentType));
 
                 operations.Append("</tr>");
                 operations.Append("</table>");
@@ -881,7 +881,7 @@ namespace EStudyBase.Controllers
                             ? Path.Combine(UploadFilePath, viewModel.PostedFile.FileName)
                             : viewModel.Url,
                     Description = viewModel.Description,
-                    ContentTypeId = 1,
+                    ContentType = ContentType.Translation,
                     CreateUserId = WebSecurity.CurrentUserId,
                     Approved = true,
                     LikeCount = 0,

@@ -8,8 +8,8 @@ namespace EStudyBase.Models {
         public string Url { get; set; }
         public decimal? FileSize { get; set; }
         public string Description { get; set; }
+        public ContentType ContentType { get; set; }
         public int ContentCategoryId { get; set; }
-        public int ContentTypeId { get; set; }
         public int CreateUserId { get; set; }
         public int? ModifyUserId { get; set; }
         public bool Approved { get; set; }
@@ -23,6 +23,5 @@ namespace EStudyBase.Models {
         public virtual Language Language { get; set; }
         public virtual UserProfile CreateUser { get; set; }
         public virtual UserProfile ModifyUser { get; set; }
-        public virtual ContentType ContentType { get; set; }
     }
 }

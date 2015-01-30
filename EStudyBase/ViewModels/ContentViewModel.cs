@@ -1,4 +1,5 @@
 ﻿using System;
+using EStudyBase.Models;
 
 namespace EStudyBase.ViewModels
 {
@@ -13,6 +14,6 @@ namespace EStudyBase.ViewModels
         public bool Approved { get; set; }
         public int Complaint { get; set; }
         public DateTime CreateDate { get; set; }
-        public int ContentTypeId { get; set; }
+        public ContentType ContentType { get; set; }
     }
 }

@@ -22,7 +22,6 @@ namespace EStudyBase.Models
         public DbSet<Like> Likes { get; set; }
         public DbSet<LikeSourceType> LikeSourceTypes { get; set; }
         public DbSet<Content> Contents { get; set; }
-        public DbSet<ContentType> ContentTypes { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<EmailLog> EmailLogs { get; set; }
@@ -39,7 +38,6 @@ namespace EStudyBase.Models
             modelBuilder.Configurations.Add(new LikeMap());
             modelBuilder.Configurations.Add(new LikeSourceTypeMap());
             modelBuilder.Configurations.Add(new ContentMap());
-            modelBuilder.Configurations.Add(new ContentTypeMap());
             modelBuilder.Configurations.Add(new TagMap());
             modelBuilder.Configurations.Add(new UserProfileMap());
             modelBuilder.Configurations.Add(new EmailLogMap());

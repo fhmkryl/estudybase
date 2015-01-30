@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
+using EStudyBase.Models;
 
 namespace EStudyBase.ViewModels
 {
@@ -27,7 +28,7 @@ namespace EStudyBase.ViewModels
         [Display(Name = "Web adresi")]
         public string Url { get; set; }
 
-        public int ContentTypeId { get; set; }
+        public ContentType ContentType { get; set; }
 
         public HttpPostedFileBase PostedFile { get; set; }
     }

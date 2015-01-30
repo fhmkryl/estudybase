@@ -17,7 +17,7 @@ namespace EStudyBase.Controllers {
     public class ContentController : Controller {
         private readonly EStudyBaseContext _context = new EStudyBaseContext();
         private const string UploadFilePath = "/UploadFiles";
-        private List<string> allowedFileExtensions = new List<string>
+        private readonly List<string> _allowedFileExtensions = new List<string>
             {
                 ".JPG",
                 ".JPE",
@@ -221,7 +221,7 @@ namespace EStudyBase.Controllers {
 
                 //...
                 // Check file extensions
-                if (!allowedFileExtensions.Contains(new FileInfo(viewModel.PostedFile.FileName).Extension.ToUpper())) {
+                if (!_allowedFileExtensions.Contains(new FileInfo(viewModel.PostedFile.FileName).Extension.ToUpper())) {
                     ViewBag.Result = false;
                     ViewBag.ResultMessage = "Bu dosya formatı desteklenmiyor, lütfen resim veya video dosyası ekleyiniz!";
                     return PartialView("_NewContent", viewModel);
@@ -252,7 +252,7 @@ namespace EStudyBase.Controllers {
                     ContentCategoryId = viewModel.ContentCategoryId,
                     Url = string.IsNullOrWhiteSpace(fileName) ? string.Empty : UploadFilePath + "/" + fileName,
                     Description = viewModel.Description,
-                    ContentTypeId = 3,
+                    ContentType = ContentType.FileUpload,
                     CreateUserId = WebSecurity.CurrentUserId,
                     Approved = true,
                     LikeCount = 0,
@@ -360,7 +360,7 @@ namespace EStudyBase.Controllers {
                         ContentCategoryId = Convert.ToInt32(form["ContentCategoryId"]),
                         Url = UploadFilePath + "/" + fileName,
                         Description = form["Description"],
-                        ContentTypeId = 2,
+                        ContentType = ContentType.VoiceRecord,
                         CreateUserId = WebSecurity.CurrentUserId,
                         Approved = true,
                         Complaint = 0,

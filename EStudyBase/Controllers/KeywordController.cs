@@ -19,12 +19,12 @@ namespace EStudyBase.Controllers
     {
         private readonly EStudyBaseContext _context = new EStudyBaseContext();
 
-        private int GetMostPopularKeyword() {
+        private Keyword GetMostPopularKeyword() {
             try {
-                var mostPopularKeywordId =
-                    _context.Database.SqlQuery<int>("SELECT dbo.GetMostPopularKeyword()").FirstOrDefault();
+                var keyword =
+                    _context.Database.SqlQuery<Keyword>("SELECT * FROM dbo.GetMostPopularKeyword()").FirstOrDefault();
 
-                return mostPopularKeywordId;
+                return keyword;
             } catch(Exception exception) {
                 throw new Exception("Error in KeywordController.GetMostPopularKeyword", exception);
             }
@@ -49,7 +49,8 @@ namespace EStudyBase.Controllers
                 //...
                 // Redirect to most popular keyword
                 if(searchCriteria.KeywordId == null && string.IsNullOrWhiteSpace(searchCriteria.Term)) {
-                    searchCriteria.KeywordId = GetMostPopularKeyword();
+                    var keyword = GetMostPopularKeyword();
+                    searchCriteria.KeywordId = keyword.KeywordId;
                 }
 
 
@@ -186,13 +187,13 @@ namespace EStudyBase.Controllers
             contentsQuery = searchCriteria.LanguageId == 1
                 ? contentsQuery
                     .OrderBy(k => k.LanguageId)
-                    .ThenBy(k => k.ContentTypeId)
+                    .ThenBy(k => k.ContentType)
                     .ThenByDescending(k => k.CreateDate)
                     .Skip(skip)
                     .Take(10)
                 : contentsQuery
                     .OrderByDescending(k => k.LanguageId)
-                    .ThenBy(k => k.ContentTypeId)
+                    .ThenBy(k => k.ContentType)
                     .ThenByDescending(k => k.CreateDate)
                     .Skip(skip)
                     .Take(10);
@@ -449,7 +450,7 @@ namespace EStudyBase.Controllers
                 // Get keyword mean list created by this user
                 var contents = _context.Contents
                                        .Where(p => p.CreateUserId == userId)
-                                       .OrderBy(k => k.ContentTypeId)
+                                       .OrderBy(k => k.ContentType)
                                        .ThenByDescending(k => k.CreateDate)
                                        .Take(10);
 

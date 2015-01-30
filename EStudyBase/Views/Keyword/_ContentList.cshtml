@@ -72,7 +72,7 @@
                 </div>
                 <div class="sola iceriktext">
 
-                    @if(content.ContentTypeId == 2) {
+                    @if(content.ContentType == ContentType.VoiceRecord) {
                         if(Regex.IsMatch(Request.UserAgent, @"Trident/7.*rv:11") || Request.Browser.Type.Contains("IE")) {
                             <div class="clear"></div>
                             <img class="icon-play" data-url="@content.Url" onclick=" PlayCurrentItem(this); " style="cursor: pointer;" />
@@ -84,7 +84,7 @@
                                 </audio>
                             </div>
                         }
-                    } else {
+                    } else if(content.ContentType == ContentType.FileUpload) {
                         if(!string.IsNullOrWhiteSpace(content.Url)) {
                             var extension = Path.GetExtension(content.Url);
                             if(extension != null && imageExtensions.Contains(extension.ToUpperInvariant())) {
@@ -115,7 +115,7 @@
                     @{
             Html.RenderPartial("_Like", new LikeViewModel {
                 SourceId = content.ContentId,
-                SourceTypeId = content.ContentTypeId,
+                SourceTypeId = (int)content.ContentType,
                 KeywordId = content.KeywordId,
                 LikeCount = content.LikeCount,
                 DislikeCount = content.DislikeCount,

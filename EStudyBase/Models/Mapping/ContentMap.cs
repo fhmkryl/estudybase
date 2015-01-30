@@ -26,7 +26,7 @@ namespace EStudyBase.Models.Mapping
             this.Property(t => t.FileSize).HasColumnName("FileSize");
             this.Property(t => t.Description).HasColumnName("Description");
             this.Property(t => t.ContentCategoryId).HasColumnName("ContentCategoryId");
-            this.Property(t => t.ContentTypeId).HasColumnName("ContentTypeId");
+            this.Property(t => t.ContentType).HasColumnName("ContentType");
             this.Property(t => t.CreateUserId).HasColumnName("CreateUserId");
             this.Property(t => t.ModifyUserId).HasColumnName("ModifyUserId");
             this.Property(t => t.Approved).HasColumnName("Approved");

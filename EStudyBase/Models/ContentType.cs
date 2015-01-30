@@ -1,8 +1,9 @@
 ﻿namespace EStudyBase.Models
 {
-    public class ContentType
+    public enum ContentType
     {
-        public int ContentTypeId { get; set; }
-        public string ShortDescription { get; set; }
+        Translation = 1,
+        FileUpload = 2,
+        VoiceRecord = 3
     }
 }

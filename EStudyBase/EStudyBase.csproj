@@ -420,7 +420,6 @@
     <Compile Include="Models\LikeSourceType.cs" />
     <Compile Include="Models\Mapping\ContentCategoryMap.cs" />
     <Compile Include="Models\Mapping\ContentMap.cs" />
-    <Compile Include="Models\Mapping\ContentTypeMap.cs" />
     <Compile Include="Models\Mapping\EmailLogMap.cs" />
     <Compile Include="Models\Mapping\EmailLogTypeMap.cs" />
     <Compile Include="Models\Mapping\KeywordMap.cs" />
